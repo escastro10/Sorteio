@@ -76,42 +76,50 @@
     }
 
     // Função para sortear os times
-    function sortearTimes() {
-      var timesSorteados = document.getElementById("timesSorteados");
-      timesSorteados.innerHTML = "";
+function sortearTimes() {
+  var timesSorteados = document.getElementById("timesSorteados");
+  timesSorteados.innerHTML = "";
 
-      // Verifica se há pessoas suficientes para formar times
-      if (pessoas.length < 2) {
-        var itemLista = document.createElement("li");
-        itemLista.textContent = "É necessário pelo menos 2 pessoas cadastradas para sortear os times.";
-        timesSorteados.appendChild(itemLista);
-        return;
-      }
+  // Verifica se há pessoas suficientes para formar times
+  if (pessoas.length < 2) {
+    var itemLista = document.createElement("li");
+    itemLista.textContent = "É necessário pelo menos 2 pessoas cadastradas para sortear os times.";
+    timesSorteados.appendChild(itemLista);
+    return;
+  }
 
-      // Copia o array de pessoas para não alterar o original
-      var pessoasSorteio = pessoas.slice();
+  // Copia o array de pessoas para não alterar o original
+  var pessoasSorteio = pessoas.slice();
 
-      // Embaralha o array de pessoas para sortear aleatoriamente
-      for (var i = pessoasSorteio.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = pessoasSorteio[i];
-        pessoasSorteio[i] = pessoasSorteio[j];
-        pessoasSorteio[j] = temp;
-      }
+  // Embaralha o array de pessoas para sortear aleatoriamente
+  for (var i = pessoasSorteio.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = pessoasSorteio[i];
+    pessoasSorteio[i] = pessoasSorteio[j];
+    pessoasSorteio[j] = temp;
+  }
 
-      // Divide o array de pessoas em dois times
-      var numTimes = Math.ceil(pessoasSorteio.length / 6);
-      var jogadoresPorTime = Math.ceil(pessoasSorteio.length / numTimes);
+  // Calcula o número de times completos
+  var numTimesCompletos = Math.floor(pessoasSorteio.length / 6);
 
-      for (var k = 0; k < numTimes; k++) {
-      var time = pessoasSorteio.slice(k * jogadoresPorTime, (k + 1) * jogadoresPorTime);
+  // Cria os times completos com 6 jogadores cada
+  for (var k = 0; k < numTimesCompletos; k++) {
+    var time = pessoasSorteio.slice(k * 6, (k + 1) * 6);
 
     // Cria um elemento <li> para cada time
-      var itemListaTime = document.createElement("li");
-      itemListaTime.textContent = "Time " + (k + 1) + ": " + time.map(function(pessoa) { return pessoa.nome; }).join(", ");
-      timesSorteados.appendChild(itemListaTime);
-    }
+    var itemListaTime = document.createElement("li");
+    itemListaTime.textContent = "Time " + (k + 1) + ": " + time.map(function(pessoa) { return pessoa.nome; }).join(", ");
+    timesSorteados.appendChild(itemListaTime);
   }
+
+  // Verifica se há jogadores restantes para formar um time adicional
+  var jogadoresRestantes = pessoasSorteio.slice(numTimesCompletos * 6);
+  if (jogadoresRestantes.length > 0) {
+    var itemListaTimeRestante = document.createElement("li");
+    itemListaTimeRestante.textContent = "Time Adicional: " + jogadoresRestantes.map(function(pessoa) { return pessoa.nome; }).join(", ");
+    timesSorteados.appendChild(itemListaTimeRestante);
+  }
+}
 
     // Adiciona um ouvinte de evento para o formulário de cadastro
     var form = document.getElementById("cadastroForm");
