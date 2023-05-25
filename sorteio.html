@@ -11,11 +11,11 @@
     <label for="nome">Nome:</label>
     <input type="text" id="nome" required><br><br>
     
-    <label for="idade">Idade:</label>
+    <!-- <label for="idade">Idade:</label>
     <input type="number" id="idade" required><br><br>
     
     <label for="email">Email:</label>
-    <input type="email" id="email" required><br><br>
+    <input type="email" id="email" required><br><br> -->
     
     <input type="submit" value="Cadastrar">
   </form>
@@ -38,14 +38,14 @@
 
       // Obtém os valores do formulário
       var nome = document.getElementById("nome").value;
-      var idade = document.getElementById("idade").value;
-      var email = document.getElementById("email").value;
+      // var idade = document.getElementById("idade").value;
+      // var email = document.getElementById("email").value;
 
       // Cria um objeto pessoa
       var pessoa = {
         nome: nome,
-        idade: idade,
-        email: email
+        // idade: idade,
+        // email: email
       };
 
       // Adiciona a pessoa ao array de pessoas
@@ -53,8 +53,8 @@
 
       // Limpa os campos do formulário
       document.getElementById("nome").value = "";
-      document.getElementById("idade").value = "";
-      document.getElementById("email").value = "";
+      // document.getElementById("idade").value = "";
+      // document.getElementById("email").value = "";
 
       // Atualiza a lista de pessoas cadastradas
       atualizarPessoasCadastradas();
@@ -70,7 +70,7 @@
       // Cria um elemento <li> para cada pessoa cadastrada
       pessoas.forEach(function(pessoa) {
         var itemLista = document.createElement("li");
-        itemLista.textContent = pessoa.nome + " (Idade: " + pessoa.idade + ", Email: " + pessoa.email + ")";
+         itemLista.textContent = pessoa.nome ;
         listaPessoas.appendChild(itemLista);
       });
     }
@@ -100,19 +100,18 @@
       }
 
       // Divide o array de pessoas em dois times
-      var meio = Math.ceil(pessoasSorteio.length / 2);
-      var time1 = pessoasSorteio.slice(0, meio);
-      var time2 = pessoasSorteio.slice(meio);
+      var numTimes = Math.ceil(pessoasSorteio.length / 6);
+      var jogadoresPorTime = Math.ceil(pessoasSorteio.length / numTimes);
 
-      // Cria um elemento <li> para cada time
-      var itemListaTime1 = document.createElement("li");
-      itemListaTime1.textContent = "Time 1: " + time1.map(function(pessoa) { return pessoa.nome; }).join(", ");
-      timesSorteados.appendChild(itemListaTime1);
+      for (var k = 0; k < numTimes; k++) {
+      var time = pessoasSorteio.slice(k * jogadoresPorTime, (k + 1) * jogadoresPorTime);
 
-      var itemListaTime2 = document.createElement("li");
-      itemListaTime2.textContent = "Time 2: " + time2.map(function(pessoa) { return pessoa.nome; }).join(", ");
-      timesSorteados.appendChild(itemListaTime2);
+    // Cria um elemento <li> para cada time
+      var itemListaTime = document.createElement("li");
+      itemListaTime.textContent = "Time " + (k + 1) + ": " + time.map(function(pessoa) { return pessoa.nome; }).join(", ");
+      timesSorteados.appendChild(itemListaTime);
     }
+  }
 
     // Adiciona um ouvinte de evento para o formulário de cadastro
     var form = document.getElementById("cadastroForm");
